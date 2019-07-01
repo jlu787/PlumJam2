@@ -7,12 +7,13 @@ public class RaccoonAI : MonoBehaviour {
 
     public float RaccoonSpeed = 10.0f; // how quickly the raccoon moves
     public float ClimbSpeed = 1000.0f;   // how quickly the raccoon climbs
-    public float ClimbTime = 2.0f;     // how long the raccoon will climb for 
+    public float ClimbTime = 3.0f;     // how long the raccoon will climb for 
     public float climbForceX = 10.0f;
     public float climbForceY = 10.0f;
 
-
     public Rigidbody2D rb;
+
+    float normalGravity;
 
     private float climbTimer = 0.0f; // used to see how long the raccoon has been climbing for
 
@@ -21,22 +22,50 @@ public class RaccoonAI : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        climbTimer = 1000.0f;
         rb.velocity = new Vector2(RaccoonSpeed * Time.deltaTime, 0.0f);
+        normalGravity = rb.gravityScale; // get the gravity at the start of the game
     }
 
     // Update is called once per frame
     void Update()
     {
-    
+        if (RaccoonSpeed > 0)
+        {
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (RaccoonSpeed < 0)
+        {
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
     }
 
     // FixedUpdate for physics related stuff
     void FixedUpdate()
     {
-        if (climbScript.getShouldBeClimbing())
+        if (climbTimer <= ClimbTime)
         {
+            rb.gravityScale = 0; // disable gravity
+            GetComponent<BoxCollider2D>().enabled = false; // disable box collider
+
             DoClimb();
         }
+        else
+        {
+            rb.gravityScale = normalGravity; // enable gravity
+            GetComponent<BoxCollider2D>().enabled = true; // enable box collider
+
+        }
+    }
+
+    public float getClimbTime()
+    {
+        return ClimbTime;
+    }
+
+    public void SetClimbTimer(float _f)
+    {
+        climbTimer = _f;
     }
     public void Flip()
     {
@@ -58,59 +87,27 @@ public class RaccoonAI : MonoBehaviour {
         climbTimer += Time.deltaTime;
         if (RaccoonSpeed > 0)
         {
-            rb.AddForce(new Vector2(climbForceX, climbForceY));
+            //rb.AddForce(new Vector2(climbForceX, climbForceY));
+            rb.velocity = new Vector2(RaccoonSpeed * Time.deltaTime, ClimbSpeed * Time.deltaTime);
+
         }
         else if (RaccoonSpeed < 0)
         {
-            rb.AddForce(new Vector2(-climbForceX, climbForceY));
+            //rb.AddForce(new Vector2(-climbForceX, climbForceY));
+            rb.velocity = new Vector2(RaccoonSpeed * Time.deltaTime, ClimbSpeed * Time.deltaTime);
+
         }
-        //rb.velocity = new Vector2(RaccoonSpeed * Time.deltaTime, ClimbSpeed * Time.deltaTime);
-        if (climbTimer >= ClimbTime)
+        if (climbTimer >= ClimbTime) // we have reached the end of the climb time
         {
-            Flip();
-            climbTimer = 0.0f;
-            climbScript.setShouldBeClimbing(false);
-            //shouldBeClimbing = false;
+            // check if it is still touching the obstacle / wall and is still trying to climb
+            if (climbScript.CheckStillClimbingSameWall() && climbScript.getShouldBeClimbing())
+            {
+                // if it is then flip it
+                Flip();
+                
+                climbScript.setShouldBeClimbing(false);
+            }
+            climbTimer = 1000.0f;
         }
     }
-
-    //private void OnCollisionStay2D(Collision2D collisionInfo)
-    //{
-    //    //if (collisionInfo.collider.tag == "Climbable" || collisionInfo.collider.tag == "Obstacle")
-    //    //{
-    //    //    shouldBeClimbing = true;
-    //    //}
-    //}
-
-    //private void OnCollisionEnter2D(Collision2D collisionInfo)
-    //{
-    //    if (collisionInfo.collider.tag == "Climbable" || collisionInfo.collider.tag == "Obstacle")
-    //    {
-    //        if (collisionInfo.collider.GetType() == typeof(CircleCollider2D))
-    //        {
-    //            Debug.Log("Should be climbing");
-    //            shouldBeClimbing = true;
-    //        }
-    //        //Climb();
-    //    }
-
-    //    // if the object it collides with is wall that is not climbable reverse it's direction
-    //    if (collisionInfo.collider.tag == "Wall")
-    //    {
-    //        Flip();
-    //    }
-    //}
-
-    //private void OnCollisionExit2D(Collision2D collisionInfo)
-    //{
-    //    if (collisionInfo.collider.tag == "Climbable" || collisionInfo.collider.tag == "Obstacle")
-    //    {
-    //        if (collisionInfo.collider.GetType() == typeof(CircleCollider2D))
-    //        {
-    //            shouldBeClimbing = false;
-    //        }
-    //        //Climb();
-    //    }
-    //}
-
 }
