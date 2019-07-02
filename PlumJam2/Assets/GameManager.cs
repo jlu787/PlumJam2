@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         currentScene = SceneManager.GetActiveScene().buildIndex;
+        //Physics2D.IgnoreLayerCollision(8, 15);
 	}
 	
 	// Update is called once per frame
