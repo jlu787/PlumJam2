@@ -18,7 +18,6 @@ public class ClickManager : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Mouse Clicked");
 
             // Convert click position to world space
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -42,11 +41,17 @@ public class ClickManager : MonoBehaviour {
         {
             attachedObject.attachedRigidbody.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             attachedObject.transform.rotation = objectOrientation;
+
+            // disable the box collider
+            //attachedObject.gameObject.GetComponent<BoxCollider2D>().enabled = false; 
         }
 
         if (Input.GetMouseButtonUp(0)&&objectFound == true)
         {
             objectFound = false;
+
+            // enable the box collider
+            //attachedObject.gameObject.GetComponent<BoxCollider2D>().enabled = true;
         }
 	}
 }
