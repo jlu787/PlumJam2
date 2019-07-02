@@ -153,15 +153,7 @@ public class RaccoonAI : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collisionInfo)
     {
       
-        // when it finds a collectable
-        if (collisionInfo.collider.tag == "Collectable" && !holdingAnItem)
-        {
-            holdingAnItem = true;
-            Debug.Log("Found collectable");
-            itemBeingHeld = collisionInfo.gameObject;
-            itemBeingHeld.GetComponent<BoxCollider2D>().enabled = false;
-            itemBeingHeld.GetComponent<Rigidbody2D>().gravityScale = 0;
-        }
+      
 
         //// when it finds a goal and is holding a collectable
         //if (collisionInfo.collider.tag == "Goal" && holdingAnItem)
@@ -174,13 +166,33 @@ public class RaccoonAI : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collisionInfo)
     {
-        // when it finds a goal and is holding a collectable
-        if (collisionInfo.tag == "Goal" && holdingAnItem)
+        // when it finds a collectable
+        if (collisionInfo.tag == "Collectable1" ||
+            collisionInfo.tag == "Collectable2" ||
+            collisionInfo.tag == "Collectable3"
+            && !holdingAnItem)
         {
-            collisionInfo.GetComponentsInChildren<ParticleSystem>()[0].Play();
-            holdingAnItem = false;
-            Debug.Log("Stored!!!");
-            Destroy(itemBeingHeld);
+            holdingAnItem = true;
+            Debug.Log("Found collectable");
+            itemBeingHeld = collisionInfo.gameObject;
+            itemBeingHeld.GetComponent<BoxCollider2D>().enabled = false;
+            itemBeingHeld.GetComponent<Rigidbody2D>().gravityScale = 0;
         }
+
+        // when it finds a goal and is holding a collectable
+        if (itemBeingHeld !=null)
+        {
+            if ((collisionInfo.tag == "Goal1" && itemBeingHeld.tag == "Collectable1") ||
+                        (collisionInfo.tag == "Goal2" && itemBeingHeld.tag == "Collectable2") ||
+                        (collisionInfo.tag == "Goal3" && itemBeingHeld.tag == "Collectable3")
+                        && holdingAnItem)
+            {
+                collisionInfo.GetComponentsInChildren<ParticleSystem>()[0].Play();
+                holdingAnItem = false;
+                Debug.Log("Stored!!!");
+                Destroy(itemBeingHeld);
+            }
+        }
+        
     }
 }
