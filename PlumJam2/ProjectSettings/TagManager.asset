@@ -9,6 +9,12 @@ TagManager:
   - Wall
   - Collectable
   - Goal
+  - Collectable1
+  - Collectable2
+  - Collectable3
+  - Goal1
+  - Goal2
+  - Goal3
   layers:
   - Default
   - TransparentFX
