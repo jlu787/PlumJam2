@@ -78,14 +78,21 @@ public class RaccoonAI : MonoBehaviour {
            // GetComponent<BoxCollider2D>().enabled = false; // disable box collider
 
             DoClimb();
-            dustParticles.Play();
+            if (dustParticles.isStopped)
+            {
+                Debug.Log("Start Emitting");
+                dustParticles.Play();
+            }
 
         }
         else
         {
             rb.gravityScale = normalGravity; // enable gravity
             //GetComponent<BoxCollider2D>().enabled = true; // enable box collider
-            dustParticles.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+            if(dustParticles.isPlaying)
+            {
+                dustParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);        
+            }
 
         }
     }
@@ -170,6 +177,7 @@ public class RaccoonAI : MonoBehaviour {
         // when it finds a goal and is holding a collectable
         if (collisionInfo.tag == "Goal" && holdingAnItem)
         {
+            collisionInfo.GetComponentsInChildren<ParticleSystem>()[0].Play();
             holdingAnItem = false;
             Debug.Log("Stored!!!");
             Destroy(itemBeingHeld);
