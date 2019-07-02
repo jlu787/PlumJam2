@@ -84,7 +84,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1177266230763846}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.97, y: -2.02, z: -0.38700268}
+  m_LocalPosition: {x: -11.23, y: -2.98, z: -0.38700268}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 4849973157216524}
@@ -99,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1063137382559714}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1, y: -0.14, z: 0}
+  m_LocalPosition: {x: 1.22, y: -0.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4284220429048478}
@@ -162,8 +162,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.07193804}
-  m_Size: {x: 0.5, y: 2.1797779}
+  m_Offset: {x: 0, y: 0.12740174}
+  m_Size: {x: 0.5, y: 2.3948224}
   m_Direction: 0
 --- !u!114 &114105722609503640
 MonoBehaviour:
@@ -178,6 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hands: {fileID: 1063137382559714}
   climbScript: {fileID: 114560135639762978}
+  dustParticles: {fileID: 198092359751579570}
   RaccoonSpeed: 100
   ClimbSpeed: 70
   ClimbTime: 2
