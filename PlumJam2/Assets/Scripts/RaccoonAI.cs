@@ -5,6 +5,8 @@ public class RaccoonAI : MonoBehaviour {
     public GameObject hands;
     public Climb climbScript;
     public ParticleSystem dustParticles;
+    public Animation raccoonAnimation;
+    public Animator raccoonAnimator;
     
 
     public float RaccoonSpeed = 10.0f; // how quickly the raccoon moves
@@ -21,8 +23,8 @@ public class RaccoonAI : MonoBehaviour {
 
     private bool holdingAnItem = false;
     private GameObject itemBeingHeld;
-
-    //bool shouldBeClimbing = false;
+    private int collisionCount = 0;
+    private bool movingRight = true;
 
     // Use this for initialization
     void Start()
@@ -30,8 +32,14 @@ public class RaccoonAI : MonoBehaviour {
         climbTimer = 1000.0f;
         rb.velocity = new Vector2(RaccoonSpeed * Time.deltaTime, 0.0f);
         normalGravity = rb.gravityScale; // get the gravity at the start of the game
-        //dustParticles.Stop(false, ParticleSystemStopBehavior.StopEmitting);
-        //dustParticles.Clear();
+
+        // check which way the raccoon is moving
+        if (RaccoonSpeed >= 0)
+        {
+            movingRight = true;
+        }
+        else movingRight = false;
+
     }
 
     // Update is called once per frame
@@ -41,31 +49,18 @@ public class RaccoonAI : MonoBehaviour {
         if (RaccoonSpeed > 0)
         {
             transform.localRotation = Quaternion.Euler(0, 0, 0);
+            movingRight = true;
         }
         else if (RaccoonSpeed < 0)
         {
+            movingRight = false;
             transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
 
         // For updating the position of the collected object
         if (holdingAnItem)
         {
-            itemBeingHeld.GetComponent<Rigidbody2D>().position = transform.position;
-
-            //// check if it is near a goal
-            //RaycastHit2D hit = Physics2D.Raycast(GetComponent<Rigidbody2D>().position, Vector2.zero);
-            //if(hit != null)
-            //{
-                
-            //    if (hit.collider.tag == "Collectable")
-            //    {
-            //        Debug.Log("Found Collectable");
-            //        //holdingAnItem = false;
-            //        //Debug.Log("Stored!!!");
-            //        //Destroy(itemBeingHeld);
-            //    }
-            //}
-            
+            itemBeingHeld.GetComponent<Rigidbody2D>().position = transform.position;          
         }
     }
 
@@ -74,8 +69,12 @@ public class RaccoonAI : MonoBehaviour {
     {
         if (climbTimer <= ClimbTime)
         {
+
             rb.gravityScale = 0; // disable gravity
-           // GetComponent<BoxCollider2D>().enabled = false; // disable box collider
+            
+
+            // change animation
+            raccoonAnimator.SetInteger("state", 1);
 
             DoClimb();
             if (dustParticles.isStopped)
@@ -87,6 +86,25 @@ public class RaccoonAI : MonoBehaviour {
         }
         else
         {
+            //// reset speed
+            //if (movingRight && rb.velocity < RaccoonSpeed)
+            //{
+            //    rb.velocity = new Vector2(RaccoonSpeed * Time.deltaTime, 0.0f);
+            //}
+            //else if (!movingRight && rb.velocity.y > RaccoonSpeed)
+            //{
+            //    rb.velocity = new Vector2(RaccoonSpeed * Time.deltaTime, 0.0f);
+            //}
+
+            // if it is colliding with something play the walking animation
+            if (collisionCount >0)
+            {
+                raccoonAnimator.SetInteger("state", 0);
+            }
+            // if it isn't play the falling animation
+            else
+                raccoonAnimator.SetInteger("state", 2);
+
             rb.gravityScale = normalGravity; // enable gravity
             //GetComponent<BoxCollider2D>().enabled = true; // enable box collider
             if(dustParticles.isPlaying)
@@ -152,16 +170,14 @@ public class RaccoonAI : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collisionInfo)
     {
-      
-      
+        // used to keep track of how many objects raccoon is colliding with so we know when to play the fall animation
+        collisionCount++;
+    }
 
-        //// when it finds a goal and is holding a collectable
-        //if (collisionInfo.collider.tag == "Goal" && holdingAnItem)
-        //{
-        //    holdingAnItem = false;
-        //    Debug.Log("Stored!!!");
-        //    Destroy(itemBeingHeld);
-        //}
+    private void OnCollisionExit2D(Collision2D collisionInfo)
+    {
+        // used to keep track of how many objects raccoon is colliding with so we know when to play the fall animation
+        collisionCount--;
     }
 
     private void OnTriggerEnter2D(Collider2D collisionInfo)

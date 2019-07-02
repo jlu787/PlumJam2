@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 50028252080267872}
   m_Layer: 0
   m_Name: LetterBox
-  m_TagString: Goal
+  m_TagString: Goal2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
