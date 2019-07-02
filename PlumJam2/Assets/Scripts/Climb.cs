@@ -15,7 +15,6 @@ public class Climb : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
 	}
 	
 	// Update is called once per frame
@@ -34,6 +33,7 @@ public class Climb : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collisionInfo)
     {
+
         //Debug.Log("We hit something");
         if (collisionInfo.collider.tag == "Climbable" || collisionInfo.collider.tag == "Obstacle")
         {
