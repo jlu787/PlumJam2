@@ -4,6 +4,8 @@ public class RaccoonAI : MonoBehaviour {
 
     public GameObject hands;
     public Climb climbScript;
+    public ParticleSystem dustParticles;
+    
 
     public float RaccoonSpeed = 10.0f; // how quickly the raccoon moves
     public float ClimbSpeed = 1000.0f;   // how quickly the raccoon climbs
@@ -28,6 +30,8 @@ public class RaccoonAI : MonoBehaviour {
         climbTimer = 1000.0f;
         rb.velocity = new Vector2(RaccoonSpeed * Time.deltaTime, 0.0f);
         normalGravity = rb.gravityScale; // get the gravity at the start of the game
+        //dustParticles.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+        //dustParticles.Clear();
     }
 
     // Update is called once per frame
@@ -74,11 +78,14 @@ public class RaccoonAI : MonoBehaviour {
            // GetComponent<BoxCollider2D>().enabled = false; // disable box collider
 
             DoClimb();
+            dustParticles.Play();
+
         }
         else
         {
             rb.gravityScale = normalGravity; // enable gravity
             //GetComponent<BoxCollider2D>().enabled = true; // enable box collider
+            dustParticles.Stop(false, ParticleSystemStopBehavior.StopEmitting);
 
         }
     }
@@ -145,7 +152,7 @@ public class RaccoonAI : MonoBehaviour {
             holdingAnItem = true;
             Debug.Log("Found collectable");
             itemBeingHeld = collisionInfo.gameObject;
-            itemBeingHeld.GetComponent<EdgeCollider2D>().enabled = false;
+            itemBeingHeld.GetComponent<BoxCollider2D>().enabled = false;
             itemBeingHeld.GetComponent<Rigidbody2D>().gravityScale = 0;
         }
 
