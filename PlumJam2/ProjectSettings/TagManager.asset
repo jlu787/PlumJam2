@@ -7,6 +7,8 @@ TagManager:
   - Obstacle
   - Climbable
   - Wall
+  - Collectable
+  - Goal
   layers:
   - Default
   - TransparentFX
@@ -16,21 +18,21 @@ TagManager:
   - UI
   - 
   - 
+  - Goal
   - 
   - 
   - 
   - 
   - 
   - 
+  - Level
   - 
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - Foreground
   - 
   - 
   - 
