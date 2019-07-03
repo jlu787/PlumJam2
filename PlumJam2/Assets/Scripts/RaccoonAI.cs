@@ -81,18 +81,18 @@ public class RaccoonAI : MonoBehaviour {
             DoClimb();
             if (dustParticles.isStopped)
             {
-                Debug.Log("Start Emitting");
+                //Debug.Log("Start Emitting");
                 dustParticles.Play();
             }
 
         }
         else
         {
-            Debug.Log(rb.velocity);
+            // Debug.Log(rb.velocity);
             if (rb.velocity.x == 0)
             {
-                Debug.Log("HELP");
-                Debug.Log(RaccoonSpeed);
+                //Debug.Log("HELP");
+                //Debug.Log(RaccoonSpeed);
 
                 rb.AddForce(new Vector2(0.0f, 10.0f));
                 rb.velocity = new Vector2(RaccoonSpeed * Time.deltaTime, 0.0f);
@@ -189,10 +189,11 @@ public class RaccoonAI : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collisionInfo)
     {
+        Debug.Log("trigger");
         // when it finds a collectable
-        if (collisionInfo.tag == "Collectable1" ||
+        if ((collisionInfo.tag == "Collectable1" ||
             collisionInfo.tag == "Collectable2" ||
-            collisionInfo.tag == "Collectable3"
+            collisionInfo.tag == "Collectable3")
             && !holdingAnItem)
         {
             holdingAnItem = true;
@@ -205,9 +206,9 @@ public class RaccoonAI : MonoBehaviour {
         // when it finds a goal and is holding a collectable
         if (itemBeingHeld !=null)
         {
-            if ((collisionInfo.tag == "Goal1" && itemBeingHeld.tag == "Collectable1") ||
+            if (((collisionInfo.tag == "Goal1" && itemBeingHeld.tag == "Collectable1") ||
                         (collisionInfo.tag == "Goal2" && itemBeingHeld.tag == "Collectable2") ||
-                        (collisionInfo.tag == "Goal3" && itemBeingHeld.tag == "Collectable3")
+                        (collisionInfo.tag == "Goal3" && itemBeingHeld.tag == "Collectable3"))
                         && holdingAnItem)
             {
                 collisionInfo.GetComponentsInChildren<ParticleSystem>()[0].Play();

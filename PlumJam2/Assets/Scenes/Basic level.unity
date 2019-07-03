@@ -640,6 +640,10 @@ Prefab:
       propertyPath: m_TagString
       value: Goal1
       objectReference: {fileID: 0}
+    - target: {fileID: 1406752143958444, guid: 958db2e47f057554ca4a5eec1afc840e, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 958db2e47f057554ca4a5eec1afc840e, type: 2}
   m_IsPrefabAsset: 0
@@ -2433,11 +2437,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4321768960624824, guid: c8e9b276ba012e24e8ac71d429ce7955, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 3.01
+      value: -8.9
       objectReference: {fileID: 0}
     - target: {fileID: 4321768960624824, guid: c8e9b276ba012e24e8ac71d429ce7955, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.22
+      value: -3.44
       objectReference: {fileID: 0}
     - target: {fileID: 50092508387842282, guid: c8e9b276ba012e24e8ac71d429ce7955,
         type: 2}
@@ -2595,6 +2599,10 @@ Prefab:
     - target: {fileID: 1406752143958444, guid: 958db2e47f057554ca4a5eec1afc840e, type: 2}
       propertyPath: m_TagString
       value: Goal2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1406752143958444, guid: 958db2e47f057554ca4a5eec1afc840e, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 958db2e47f057554ca4a5eec1afc840e, type: 2}
@@ -3100,6 +3108,11 @@ Prefab:
       propertyPath: raccoonAI
       value: 
       objectReference: {fileID: 858974463}
+    - target: {fileID: 224739712451515762, guid: 94661df91dd19f24689ddb655fcd0c34,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94661df91dd19f24689ddb655fcd0c34, type: 2}
   m_IsPrefabAsset: 0
