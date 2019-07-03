@@ -44,6 +44,7 @@ public class ClickManager : MonoBehaviour {
 
             // disable the box collider
             //attachedObject.gameObject.GetComponent<BoxCollider2D>().enabled = false; 
+            attachedObject.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
         }
 
         if (Input.GetMouseButtonUp(0)&&objectFound == true)
@@ -52,6 +53,8 @@ public class ClickManager : MonoBehaviour {
 
             // enable the box collider
             //attachedObject.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+            attachedObject.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+
         }
-	}
+    }
 }

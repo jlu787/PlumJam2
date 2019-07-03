@@ -7,6 +7,7 @@ public class RaccoonAI : MonoBehaviour {
     public ParticleSystem dustParticles;
     public Animation raccoonAnimation;
     public Animator raccoonAnimator;
+    public AudioSource deliveredSFX;
     
 
     public float RaccoonSpeed = 10.0f; // how quickly the raccoon moves
@@ -60,7 +61,8 @@ public class RaccoonAI : MonoBehaviour {
         // For updating the position of the collected object
         if (holdingAnItem)
         {
-            itemBeingHeld.GetComponent<Rigidbody2D>().position = transform.position;          
+            Vector3 collectPos = new Vector3(transform.position.x, transform.position.y + 2.5f, transform.position.z);
+            itemBeingHeld.GetComponent<Rigidbody2D>().position = collectPos;          
         }
     }
 
@@ -86,15 +88,15 @@ public class RaccoonAI : MonoBehaviour {
         }
         else
         {
-            //// reset speed
-            //if (movingRight && rb.velocity < RaccoonSpeed)
-            //{
-            //    rb.velocity = new Vector2(RaccoonSpeed * Time.deltaTime, 0.0f);
-            //}
-            //else if (!movingRight && rb.velocity.y > RaccoonSpeed)
-            //{
-            //    rb.velocity = new Vector2(RaccoonSpeed * Time.deltaTime, 0.0f);
-            //}
+            Debug.Log(rb.velocity);
+            if (rb.velocity.x == 0)
+            {
+                Debug.Log("HELP");
+                Debug.Log(RaccoonSpeed);
+
+                rb.AddForce(new Vector2(0.0f, 10.0f));
+                rb.velocity = new Vector2(RaccoonSpeed * Time.deltaTime, 0.0f);
+            }
 
             // if it is colliding with something play the walking animation
             if (collisionCount >0)
@@ -113,6 +115,11 @@ public class RaccoonAI : MonoBehaviour {
             }
 
         }
+    }
+
+    public bool getHoldingItem()
+    {
+        return holdingAnItem;
     }
 
     public float getClimbTime()
@@ -205,7 +212,9 @@ public class RaccoonAI : MonoBehaviour {
             {
                 collisionInfo.GetComponentsInChildren<ParticleSystem>()[0].Play();
                 holdingAnItem = false;
-                Debug.Log("Stored!!!");
+
+                deliveredSFX.Play();
+                //Debug.Log("Stored!!!");
                 Destroy(itemBeingHeld);
             }
         }
