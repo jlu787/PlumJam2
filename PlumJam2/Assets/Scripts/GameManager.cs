@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour {
     public Text DeliverText;
 
     public GameObject completeLevelUI;
+    public RaccoonAI raccoonAI;
+    public AudioSource sneakyBGM;
+    public AudioSource playfulBGM;
 
     int numOfCollectables;
 
@@ -33,6 +36,11 @@ public class GameManager : MonoBehaviour {
             SceneManager.LoadScene(currentScene);
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         // find how many collectable objects there are in the level
         arrCollectable1 = GameObject.FindGameObjectsWithTag("Collectable1");
         arrCollectable2 = GameObject.FindGameObjectsWithTag("Collectable2");
@@ -46,7 +54,19 @@ public class GameManager : MonoBehaviour {
 
         if (numOfCollectables == 0)
         {
+            sneakyBGM.Stop();
+            playfulBGM.Stop();
             CompleteLevel();
+        }
+        else if(raccoonAI.getHoldingItem() == true && !playfulBGM.isPlaying)
+        {
+            sneakyBGM.Stop();
+            playfulBGM.Play();
+        }
+        else if(!raccoonAI.getHoldingItem() && !sneakyBGM.isPlaying)
+        {
+            sneakyBGM.Play();
+            playfulBGM.Stop();
         }
     }
 
